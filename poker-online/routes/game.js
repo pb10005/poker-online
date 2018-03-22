@@ -99,6 +99,9 @@ class Game {
         }
     }
     judgeHand() {
+        //始まっていない場合をはじく
+        if (!this.started)
+            return;
         //HoleとCommunityをあわせた最強の役を見つける
         for (let player in this.roster.players) {
             let hole = this.roster.players[player].getHole();
@@ -127,6 +130,9 @@ class Game {
         }
     }
     judgeWinner() {
+        //始まっていない場合をはじく
+        if (!this.started)
+            return;
         async.map(this.roster.players, (player, callback) => {
             callback(null, player.getBestHand());
         }, (err, hands) => {
