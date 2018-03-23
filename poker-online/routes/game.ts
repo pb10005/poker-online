@@ -29,6 +29,16 @@ class Game{
     initialize(): void {
         this.deck.shuffle();
     }
+    private reset(player: Player): void {
+        this.community = [];
+        this.ended = false;
+        this.started = false;
+        this.messages = [];
+        for (let key in this.roster.players) {
+            this.roster.players[key].setHole([]);
+            this.notifyCurrent(this.roster.players[key]);
+        }
+    }
     enter(player: Player): void {
         let exist = false;
         //IPアドレスが同じsocketがあれば、playerを引き継ぐ
@@ -60,6 +70,9 @@ class Game{
         }
     }
     quit(player: Player): void {
+        player.broadcast("player", this.roster.players.length-1);
+        player.broadcast("reset", null);
+        this.reset(player);
         this.roster.remove(player);
     }
     distribute(): void {
@@ -77,6 +90,7 @@ class Game{
     }
     openNext(): void {
         //Communityをめくる
+        if(!this.started) return;
         if (!this.community[3]) return;
         if (!this.community[3].isOpen) {
             this.community[3].isOpen = true;
@@ -97,12 +111,14 @@ class Game{
         let num = this.roster.players.length;
         player.sendMsg("player", num);
         let hole = player.getHole();
-        if (hole.length != 0) {
-            player.sendMsg("hole", hole);
-        }
-        if (this.community.length != 0) {
-            player.sendMsg("community", this.community.filter(x => x.isOpen));
-        }
+        //if (hole.length != 0) {
+        //    player.sendMsg("hole", hole);
+        //}
+        //if (this.community.length != 0) {
+        //    player.sendMsg("community", this.community.filter(x => x.isOpen));
+        //}
+        player.sendMsg("hole", hole);
+        player.sendMsg("community", this.community.filter(x => x.isOpen));
         if (this.community.filter(x=>x.isOpen).length == 5) {
             player.sendMsg("hand", player.getBestHand().getRank());
         }
@@ -191,7 +207,9 @@ class Game{
                     };
                 }
                 for (let key in this.roster.players) {
-                    this.roster.players[key].sendMsg("winner", data.content);
+                    let p: Player = this.roster.players[key];
+                    p.sendMsg("winner", data.content);
+                    p.sendMsg("result", this.roster.players.map(x=>x.name + ": " + x.getBestHand().show()));
                 }
             });
     }

@@ -19,7 +19,7 @@
   getNum(): number {
       return this.num;
   }
-  private show(): string {
+  show(): string {
     let res = "";
     switch (this.suit) {
       case 1:

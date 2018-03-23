@@ -50,7 +50,10 @@ io.on('connection', (socket) => {
     socket.on("new", () => {
         game.distribute();
     });
-
+    socket.on("quit", () => {
+        console.log("quit", p.name);
+        game.quit(p);
+    });
     socket.on("chat", (txt) => {
         let message = new ChatMessage(p, txt);
         game.messages.push(message);

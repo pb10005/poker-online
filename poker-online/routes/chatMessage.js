@@ -7,3 +7,4 @@ var ChatMessage = (function () {
     return ChatMessage;
 }());
 module.exports = ChatMessage;
+//# sourceMappingURL=chatMessage.js.map

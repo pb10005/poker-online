@@ -3,31 +3,40 @@ block content
     include header
     div
         h1 Poker
-        span room:
-        span(id="room")= room
-    p(id="name")
-    p
+        h2
+            span room:
+            span(id="room")= room
+    h4(id="name")
+    h4
         span(id='num')
         span  players
-    p
-        span Community cards: 
-        span(id='community')
-    p
-        span Hole cards:
-        span(id='hand')
-    p(id='hand_name')
+    div(class="card")
+        div(class="card-body")
+            h4(class="card-title") Your Cards
+            div(class="card-text")
+                p
+                    span Community cards: 
+                    span(id='community')
+                p
+                    span Hole cards:
+                    span(id='hand')
+                p(id='hand_name')
     div(id="app")
         div(class="mb-2")
+            h2 Dealer's Control Panel
             button(class="btn btn-default mr-2" v-on:click="next()") Open Next Card
-            button(class="btn btn-default mr-2" v-on:click="hand()") Make hands
-        div(class="mb-2")
+            button(class="btn btn-default mr-2" v-on:click="hand()") Watch Results
             button(class="btn btn-default mr-2" v-on:click="newGame()") New Game
-            button(class="btn btn-danger mr-2") Quit
+        div(class="mb-2")
+            a(class="btn btn-danger mr-2" v-on:click="quit()" href="/") Quit
+        ul
+            li(v-for="item in results") {{ item }}
+        h2 Chat
         div(class="form-group")
             input(class="form-control mb-2" type="text" v-model="text" placeholder="message")
             input(class="btn btn-primary mb-2" v-on:click="submit()" value="Submit")
-        a(class="btn btn-default" enabled="{{isStartPage ? 'disabled': ''}}" href="#" v-on:click="showPrev") prev
-        a(class="btn btn-default" enabled="{{isEndPage ? 'disabled': ''}}" href="#" v-on:click="showNext") next
+        a(class="btn btn-default" href="#" v-on:click="showPrev") prev
+        a(class="btn btn-default" href="#" v-on:click="showNext") next
         ul
             li(v-for="item in dispItems") {{ item }}
     script(src="/javascripts/dealer.js")

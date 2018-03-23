@@ -23,3 +23,4 @@ var Roster = (function () {
     return Roster;
 }());
 module.exports = Roster;
+//# sourceMappingURL=roster.js.map

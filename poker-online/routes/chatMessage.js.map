@@ -1,1 +1,1 @@
-{"version":3,"file":"chatMessage.js","sourceRoot":"","sources":["chatMessage.ts"],"names":[],"mappings":";AAEA;IAGI,YAAY,MAAc,EAAE,IAAY;QACpC,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACrB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;CACJ;AAED,iBAAS,WAAW,CAAC"}
+{"version":3,"file":"chatMessage.js","sourceRoot":"","sources":["chatMessage.ts"],"names":[],"mappings":";AAEA;IAGI,qBAAY,MAAc,EAAE,IAAY;QACpC,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACrB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IACL,kBAAC;AAAD,CAAC,AAPD,IAOC;AAED,iBAAS,WAAW,CAAC"}

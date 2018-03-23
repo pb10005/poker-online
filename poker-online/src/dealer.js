@@ -10,10 +10,18 @@ let vm = new Vue({
         text: "",
         items: [],
         hands: [],
+        results: [],
         dispItemSize: 10,
         page: 0
     },
     methods: {
+        init() {
+            this.text = "";
+            this.items = [];
+            this.hands = [];
+            this.results = [];
+            this.page = 0;
+        },
         next(){
             socket.emit("turn");
         },
@@ -29,6 +37,9 @@ let vm = new Vue({
         showPrev() {
             if (this.isStartPage) return;
             this.page--;
+        },
+        quit() {
+            socket.emit("quit");
         },
         showNext() {
             if (this.isEndPage) return;
@@ -51,4 +62,15 @@ let vm = new Vue({
 
 socket.on('chat', (messages) => {
     vm.items = messages.content.reverse();
+});
+
+socket.on('result', (data) => {
+    if (data.room !== document.getElementById('room').textContent) return;
+    console.log("results", data.content);
+    vm.results = data.content;
+});
+
+socket.on('reset', (obj) => {
+    vm.init();
+    console.log("initialized");
 });

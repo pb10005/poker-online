@@ -17,6 +17,16 @@ var Game = (function () {
     Game.prototype.initialize = function () {
         this.deck.shuffle();
     };
+    Game.prototype.reset = function (player) {
+        this.community = [];
+        this.ended = false;
+        this.started = false;
+        this.messages = [];
+        for (var key in this.roster.players) {
+            this.roster.players[key].setHole([]);
+            this.notifyCurrent(this.roster.players[key]);
+        }
+    };
     Game.prototype.enter = function (player) {
         var exist = false;
         //IPアドレスが同じsocketがあれば、playerを引き継ぐ
@@ -47,6 +57,9 @@ var Game = (function () {
         }
     };
     Game.prototype.quit = function (player) {
+        player.broadcast("player", this.roster.players.length - 1);
+        player.broadcast("reset", null);
+        this.reset(player);
         this.roster.remove(player);
     };
     Game.prototype.distribute = function () {
@@ -65,6 +78,8 @@ var Game = (function () {
     };
     Game.prototype.openNext = function () {
         //Communityをめくる
+        if (!this.started)
+            return;
         if (!this.community[3])
             return;
         if (!this.community[3].isOpen) {
@@ -85,12 +100,14 @@ var Game = (function () {
         var num = this.roster.players.length;
         player.sendMsg("player", num);
         var hole = player.getHole();
-        if (hole.length != 0) {
-            player.sendMsg("hole", hole);
-        }
-        if (this.community.length != 0) {
-            player.sendMsg("community", this.community.filter(function (x) { return x.isOpen; }));
-        }
+        //if (hole.length != 0) {
+        //    player.sendMsg("hole", hole);
+        //}
+        //if (this.community.length != 0) {
+        //    player.sendMsg("community", this.community.filter(x => x.isOpen));
+        //}
+        player.sendMsg("hole", hole);
+        player.sendMsg("community", this.community.filter(function (x) { return x.isOpen; }));
         if (this.community.filter(function (x) { return x.isOpen; }).length == 5) {
             player.sendMsg("hand", player.getBestHand().getRank());
         }
@@ -177,10 +194,13 @@ var Game = (function () {
                 };
             }
             for (var key in _this.roster.players) {
-                _this.roster.players[key].sendMsg("winner", data.content);
+                var p = _this.roster.players[key];
+                p.sendMsg("winner", data.content);
+                p.sendMsg("result", _this.roster.players.map(function (x) { return x.name + ": " + x.getBestHand().show(); }));
             }
         });
     };
     return Game;
 }());
 module.exports = Game;
+//# sourceMappingURL=game.js.map

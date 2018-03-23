@@ -21,6 +21,9 @@ class Hand {
     getCards(): Array<Card> {
         return [this.c1, this.c2, this.c3, this.c4, this.c5];
     }
+    show(): string{
+        return this.getCards().map(x=>x.show()).join(' ');        
+    }
     private judge(): any {
         //役を判定する
         let suits = this.countSuit();

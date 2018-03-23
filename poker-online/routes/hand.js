@@ -14,6 +14,9 @@ var Hand = (function () {
     Hand.prototype.getCards = function () {
         return [this.c1, this.c2, this.c3, this.c4, this.c5];
     };
+    Hand.prototype.show = function () {
+        return this.getCards().map(function (x) { return x.show(); }).join(' ');
+    };
     Hand.prototype.judge = function () {
         //役を判定する
         var suits = this.countSuit();
@@ -132,3 +135,4 @@ var Hand = (function () {
     return Hand;
 }());
 module.exports = Hand;
+//# sourceMappingURL=hand.js.map
