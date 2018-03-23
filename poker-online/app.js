@@ -1,29 +1,29 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const debug = require("debug");
-const express = require("express");
-const path = require("path");
-const http = require("http");
-const socketio = require("socket.io");
-const index_1 = require("./routes/index");
-const user_1 = require("./routes/user");
-const room_1 = require("./routes/room");
-const Game = require("./routes/game");
-const Player = require("./routes/player");
-const ChatMessage = require("./routes/chatMessage");
-const app = express();
-const server = http.createServer(app);
-const io = socketio.listen(server);
-let games = [new Game("1", 2), new Game("2", 3)];
+exports.__esModule = true;
+var debug = require("debug");
+var express = require("express");
+var path = require("path");
+var http = require("http");
+var socketio = require("socket.io");
+var index_1 = require("./routes/index");
+var user_1 = require("./routes/user");
+var room_1 = require("./routes/room");
+var Game = require("./routes/game");
+var Player = require("./routes/player");
+var ChatMessage = require("./routes/chatMessage");
+var app = express();
+var server = http.createServer(app);
+var io = socketio.listen(server);
+var games = [new Game("1", 2), new Game("2", 3)];
 games[0].initialize();
 games[1].initialize();
-io.on('connection', (socket) => {
-    let url = socket.handshake.headers.referer;
-    let re1 = new RegExp("room/1");
-    let re2 = new RegExp("room/2");
-    let p = new Player(socket);
-    let isExist = false;
-    let game;
+io.on('connection', function (socket) {
+    var url = socket.handshake.headers.referer;
+    var re1 = new RegExp("room/1");
+    var re2 = new RegExp("room/2");
+    var p = new Player(socket);
+    var isExist = false;
+    var game;
     if (re1.test(url)) {
         game = games[0];
         p.room = '1';
@@ -35,24 +35,24 @@ io.on('connection', (socket) => {
     else {
     }
     game.enter(p);
-    console.log("new", game.roster.players.map(x => x.getSocket().handshake.address));
+    console.log("new", game.roster.players.map(function (x) { return x.getSocket().handshake.address; }));
     socket.on('disconnect', function () {
     });
-    socket.on('turn', () => {
+    socket.on('turn', function () {
         game.openNext();
     });
-    socket.on("hand", () => {
+    socket.on("hand", function () {
         game.judgeHand();
         game.judgeWinner();
     });
-    socket.on("new", () => {
+    socket.on("new", function () {
         game.distribute();
     });
-    socket.on("chat", (txt) => {
-        let message = new ChatMessage(p, txt);
+    socket.on("chat", function (txt) {
+        var message = new ChatMessage(p, txt);
         game.messages.push(message);
-        for (let key in game.roster.players) {
-            game.roster.players[key].sendMsg("chat", game.messages.map(x => x.sender.name + ': ' + x.text));
+        for (var key in game.roster.players) {
+            game.roster.players[key].sendMsg("chat", game.messages.map(function (x) { return x.sender.name + ': ' + x.text; }));
         }
     });
 });
@@ -60,9 +60,9 @@ io.on('connection', (socket) => {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/", index_1.default);
-app.use("/room", room_1.default);
-app.use("/users", user_1.default);
+app.use("/", index_1["default"]);
+app.use("/room", room_1["default"]);
+app.use("/users", user_1["default"]);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error("Not Found");
@@ -73,7 +73,7 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get("env") === "development") {
-    app.use((err, req, res, next) => {
+    app.use(function (err, req, res, next) {
         res.status(err["status"] || 500);
         res.render("error", {
             message: err.message,
@@ -83,7 +83,7 @@ if (app.get("env") === "development") {
 }
 // production error handler
 // no stacktraces leaked to user
-app.use((err, req, res, next) => {
+app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render("error", {
         message: err.message,
@@ -94,4 +94,3 @@ app.set("port", process.env.PORT || 3000);
 var svr = server.listen(app.get("port"), function () {
     debug("Express server listening on port " + server.address().port);
 });
-//# sourceMappingURL=app.js.map

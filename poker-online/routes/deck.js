@@ -1,35 +1,35 @@
 "use strict";
-const Card = require("./card");
-class Deck {
-    constructor() {
+var Card = require("./card");
+var Deck = (function () {
+    function Deck() {
         this.cards = [];
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 13; j++) {
-                let card = new Card(i + 1, j + 1);
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 13; j++) {
+                var card = new Card(i + 1, j + 1);
                 this.cards.push(card);
             }
         }
     }
-    getCards() {
+    Deck.prototype.getCards = function () {
         return this.cards;
-    }
-    draw(num) {
-        let res = [];
+    };
+    Deck.prototype.draw = function (num) {
+        var res = [];
         for (var i = 0; i < num; i++) {
             res.push(this.cards.pop());
         }
         return res;
-    }
-    shuffle() {
+    };
+    Deck.prototype.shuffle = function () {
         //Fisher-Yates Shuffle
-        let m = this.cards.length, t, i;
+        var m = this.cards.length, t, i;
         while (m) {
             i = Math.floor(Math.random() * m--);
             t = this.cards[m];
             this.cards[m] = this.cards[i];
             this.cards[i] = t;
         }
-    }
-}
+    };
+    return Deck;
+}());
 module.exports = Deck;
-//# sourceMappingURL=deck.js.map

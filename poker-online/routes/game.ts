@@ -63,6 +63,8 @@ class Game{
         this.roster.remove(player);
     }
     distribute(): void {
+        //人数が揃っていない場合をはじく
+        if (this.roster.players.length < 2) return;
         //カードを配る
         this.community = this.deck.draw(5);
         for (var i = 0; i < 3; i++) {

@@ -1,6 +1,6 @@
 "use strict";
-class Card {
-    constructor(suit, num) {
+var Card = (function () {
+    function Card(suit, num) {
         //1: spade 2:heart 3:club 4:diamond
         this.suit = suit;
         this.num = num;
@@ -11,14 +11,14 @@ class Card {
         this.screenName = this.show();
         this.isOpen = false;
     }
-    getSuit() {
+    Card.prototype.getSuit = function () {
         return this.suit;
-    }
-    getNum() {
+    };
+    Card.prototype.getNum = function () {
         return this.num;
-    }
-    show() {
-        let res = "";
+    };
+    Card.prototype.show = function () {
+        var res = "";
         switch (this.suit) {
             case 1:
                 res += "♠";
@@ -54,7 +54,7 @@ class Card {
                 break;
         }
         return res;
-    }
-}
+    };
+    return Card;
+}());
 module.exports = Card;
-//# sourceMappingURL=card.js.map

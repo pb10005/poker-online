@@ -1,12 +1,11 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /*
  * GET home page.
  */
-const express = require("express");
-const router = express.Router();
-router.get('/', (req, res, next) => {
+var express = require("express");
+var router = express.Router();
+router.get('/', function (req, res, next) {
     res.render('index', { title: 'Poker' });
 });
-exports.default = router;
-//# sourceMappingURL=index.js.map
+exports["default"] = router;

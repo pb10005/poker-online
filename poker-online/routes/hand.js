@@ -1,6 +1,6 @@
 "use strict";
-class Hand {
-    constructor(c1, c2, c3, c4, c5) {
+var Hand = (function () {
+    function Hand(c1, c2, c3, c4, c5) {
         this.c1 = c1;
         this.c2 = c2;
         this.c3 = c3;
@@ -8,17 +8,17 @@ class Hand {
         this.c5 = c5;
         this.rank = this.judge();
     }
-    getRank() {
+    Hand.prototype.getRank = function () {
         return this.rank;
-    }
-    getCards() {
+    };
+    Hand.prototype.getCards = function () {
         return [this.c1, this.c2, this.c3, this.c4, this.c5];
-    }
-    judge() {
+    };
+    Hand.prototype.judge = function () {
         //役を判定する
-        let suits = this.countSuit();
-        let nums = this.countNum();
-        let straightCount = 0, strength;
+        var suits = this.countSuit();
+        var nums = this.countNum();
+        var straightCount = 0, strength;
         for (var i = 0; i < 13; i++) {
             if (nums[i] == 4) {
                 return {
@@ -104,10 +104,10 @@ class Hand {
                 name: 'no hand'
             };
         }
-    }
-    countNum() {
-        let res = new Array(13);
-        for (let i = 0; i < 13; i++) {
+    };
+    Hand.prototype.countNum = function () {
+        var res = new Array(13);
+        for (var i = 0; i < 13; i++) {
             res[i] = 0;
         }
         res[this.c1.getNum() - 1]++;
@@ -116,10 +116,10 @@ class Hand {
         res[this.c4.getNum() - 1]++;
         res[this.c5.getNum() - 1]++;
         return res;
-    }
-    countSuit() {
-        let res = new Array(4);
-        for (let i = 0; i < 4; i++) {
+    };
+    Hand.prototype.countSuit = function () {
+        var res = new Array(4);
+        for (var i = 0; i < 4; i++) {
             res[i] = 0;
         }
         res[this.c1.getSuit() - 1]++;
@@ -128,7 +128,7 @@ class Hand {
         res[this.c4.getSuit() - 1]++;
         res[this.c5.getSuit() - 1]++;
         return res;
-    }
-}
+    };
+    return Hand;
+}());
 module.exports = Hand;
-//# sourceMappingURL=hand.js.map

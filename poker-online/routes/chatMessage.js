@@ -1,9 +1,9 @@
 "use strict";
-class ChatMessage {
-    constructor(sender, text) {
+var ChatMessage = (function () {
+    function ChatMessage(sender, text) {
         this.sender = sender;
         this.text = text;
     }
-}
+    return ChatMessage;
+}());
 module.exports = ChatMessage;
-//# sourceMappingURL=chatMessage.js.map
