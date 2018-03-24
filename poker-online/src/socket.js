@@ -57,9 +57,6 @@ socket.on('name', (data) => {
     let name = data.content;
     document.getElementById('name').textContent = name;
 });
-socket.on('winner', (data) => {
-    if (data.room !== document.getElementById('room').textContent) return;	
-    alert(data.content);	
-});
+
 module.exports = socket;
 //# sourceMappingURL=socket.js.map

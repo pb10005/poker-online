@@ -14,13 +14,14 @@ var ChatMessage = require("./routes/chatMessage");
 var app = express();
 var server = http.createServer(app);
 var io = socketio.listen(server);
-var games = [new Game("1", 2), new Game("2", 3)];
+var games = [new Game("1", 2), new Game("2", 2), new Game("3", 3)];
 games[0].initialize();
 games[1].initialize();
 io.on('connection', function (socket) {
     var url = socket.handshake.headers.referer;
     var re1 = new RegExp("room/1");
     var re2 = new RegExp("room/2");
+    var re3 = new RegExp("room/3");
     var p = new Player(socket);
     var isExist = false;
     var game;
@@ -32,7 +33,9 @@ io.on('connection', function (socket) {
         game = games[1];
         p.room = '2';
     }
-    else {
+    else if (re3.test(url)) {
+        game = games[2];
+        p.room = '3';
     }
     game.enter(p);
     console.log("new", game.roster.players.map(function (x) { return x.getSocket().handshake.address; }));

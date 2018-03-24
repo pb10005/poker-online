@@ -8,6 +8,7 @@ let vm = new Vue({
     el: "#app",
     data: {
         text: "",
+        winner: "",
         items: [],
         hands: [],
         results: [],
@@ -17,6 +18,7 @@ let vm = new Vue({
     methods: {
         init() {
             this.text = "";
+            this.winner = "";
             this.items = [];
             this.hands = [];
             this.results = [];
@@ -73,4 +75,9 @@ socket.on('result', (data) => {
 socket.on('reset', (obj) => {
     vm.init();
     console.log("initialized");
+});
+
+socket.on('winner', (data) => {
+    if (data.room !== document.getElementById('room').textContent) return;
+    vm.winner = data.content;
 });

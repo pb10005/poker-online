@@ -16,13 +16,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio.listen(server);
 
-let games: Array<Game> = [new Game("1", 2), new Game("2", 3)];
+let games: Array<Game> = [new Game("1", 2), new Game("2", 2), new Game("3", 3)];
 games[0].initialize();
 games[1].initialize();
 io.on('connection', (socket) => {
     let url = socket.handshake.headers.referer;
     let re1 = new RegExp("room/1");
     let re2 = new RegExp("room/2");
+    let re3 = new RegExp("room/3");
     let p: Player = new Player(socket);
     let isExist = false;
     let game: Game;
@@ -34,7 +35,9 @@ io.on('connection', (socket) => {
         game = games[1];
         p.room = '2';
     }
-    else {
+    else if (re3.test(url)) {
+        game = games[2];
+        p.room = '3';
     }
     game.enter(p);
     console.log("new", game.roster.players.map(x => x.getSocket().handshake.address));

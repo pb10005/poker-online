@@ -29,14 +29,15 @@ block content
             button(class="btn btn-default mr-2" v-on:click="newGame()") New Game
         div(class="mb-2")
             a(class="btn btn-danger mr-2" v-on:click="quit()" href="/") Quit
+        p {{ winner }}
         ul
             li(v-for="item in results") {{ item }}
         h2 Chat
         div(class="form-group")
             input(class="form-control mb-2" type="text" v-model="text" placeholder="message")
             input(class="btn btn-primary mb-2" v-on:click="submit()" value="Submit")
-        a(class="btn btn-default" href="#" v-on:click="showPrev") prev
-        a(class="btn btn-default" href="#" v-on:click="showNext") next
+        a(class="btn btn-default" v-bind:class="isStartPage ? 'disabled': ''" href="#" v-on:click="showPrev") prev
+        a(class="btn btn-default" v-bind:class="isEndPage ? 'disabled' : ''" href="#" v-on:click="showNext") next
         ul
             li(v-for="item in dispItems") {{ item }}
     script(src="/javascripts/dealer.js")
